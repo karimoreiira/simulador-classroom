@@ -1,0 +1,17 @@
+body { font-family: 'Roboto', sans-serif; margin: 0; background-color: #f8f9fa; color: #3c4043; }
+header { background-color: white; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #dadce0; position: fixed; top: 0; width: calc(100% - 48px); z-index: 100; }
+header h1 { font-size: 22px; color: #5f6368; }
+.user-info { display: flex; align-items: center; gap: 20px; }
+#avatar { width: 32px; height: 32px; background-color: #1e8e3e; color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 500; }
+.user-info button { background-color: transparent; border: 1px solid #dadce0; color: #3c4043; border-radius: 4px; padding: 8px 16px; cursor: pointer; font-weight: 500; transition: background-color 0.2s; }
+.user-info button:hover { background-color: #f1f3f4; }
+main { padding: 88px 24px 24px 24px; }
+.turmas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+.turma-card { background-color: white; border: 1px solid #dadce0; border-radius: 8px; display: flex; flex-direction: column; }
+.card-header { background-color: #1e8e3e; color: white; padding: 16px; height: 80px; border-radius: 8px 8px 0 0; position: relative; }
+.card-header h3 { margin: 0; font-size: 20px; }
+.card-body { flex-grow: 1; padding: 16px; }
+.card-footer { padding: 16px; border-top: 1px solid #dadce0; display: flex; justify-content: flex-end; gap: 20px; }
+.material-icons { color: #5f6368; cursor: pointer; }
+#add-turma-btn { position: fixed; bottom: 24px; right: 24px; background-color: white; border: 1px solid #dadce0; border-radius: 50%; width: 56px; height: 56px; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+#add-turma-btn .material-icons { font-size: 28px; color: #5f6368; }

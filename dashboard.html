@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Turmas - Classroom</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style_dashboard.css">
+</head>
+<body>
+
+    <header>
+        <h1>Classroom Sim</h1>
+        <div class="user-info">
+            <div id="avatar">K</div>
+            <button onclick="fazerLogout()">Sair</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="turmas-grid">
+            <div class="turma-card">
+                <div class="card-header"><h3>Projeto de Software</h3><span>2º Semestre</span></div>
+                <div class="card-body"></div>
+                <div class="card-footer"><span class="material-icons" title="Atividades">assignment</span><span class="material-icons" title="Pasta da turma">folder</span></div>
+            </div>
+            <div class="turma-card">
+                <div class="card-header" style="background-color: #1a73e8;"><h3>Banco de Dados</h3><span>2º Semestre</span></div>
+                <div class="card-body"></div>
+                <div class="card-footer"><span class="material-icons" title="Atividades">assignment</span><span class="material-icons" title="Pasta da turma">folder</span></div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="add-turma-btn" title="Criar ou participar da turma"><span class="material-icons">add</span></div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
