@@ -1,45 +1,61 @@
-# Simulador de Classroom - Projeto de Software
+Simulador de Classroom - Projeto de Software
 
-## 1. Objetivo do Projeto
+1. Objetivo do Projeto
+
 Desenvolver um software web funcional que simula as principais funcionalidades do Google Classroom, com entregas incrementais ao longo do semestre.
 
-## 2. Arquitetura e Tecnologias
-* **Front-end:** HTML5, CSS3 e JavaScript.
-* **Back-end (BaaS):** Supabase, que fornece um banco de dados PostgreSQL gerenciado e APIs de autenticação e dados.
-* **Ferramentas:** Visual Studio Code, GitHub.
+2. Arquitetura e Tecnologias
 
-## 3. Funcionalidades Implementadas
+Front-end: HTML5, CSS3 e JavaScript.
 
-### AC1: Sistema de Autenticação e Segurança
-- Cadastro de novos usuários com confirmação por e-mail.
-- Tela de Login para autenticação.
-- Proteção da página de "Dashboard", acessível apenas para usuários logados.
-- Função de Logout para encerrar a sessão.
+Back-end (BaaS): Supabase, que fornece um banco de dados PostgreSQL gerenciado e APIs de autenticação e dados.
 
-### AC2: Criação e Listagem de Turmas
-- Implementação da criação de novas turmas através de um formulário em pop-up (modal).
-- O dashboard busca e exibe dinamicamente a lista de turmas do banco de dados (`courses`).
+Ferramentas: Visual Studio Code, GitHub, Mermaid.
 
-### AC3: Gerenciamento de Atividades da Turma
-- Ao clicar em uma turma, o usuário é levado a uma nova página de "Detalhes da Turma".
-- A página busca e exibe a lista de atividades (`atividades`) específica daquela turma.
-- Implementado formulário para criar novas atividades (com título e descrição) e associá-las à turma correta.
+3. Funcionalidades Implementadas
 
-## 4. Estrutura do Banco de Dados (PostgreSQL)
-O banco de dados do projeto consiste nas seguintes tabelas:
+AC1: Sistema de Autenticação e Segurança
 
-**Tabela `courses` (Turmas):**
-```sql
-CREATE TABLE courses (
-    id SERIAL PRIMARY KEY,
-    created_at TIMESTAMPTZ DEFAULT now(),
-    title TEXT NOT NULL,
-    materia TEXT
-);
-CREATE TABLE atividades (
-    id SERIAL PRIMARY KEY,
-    created_at TIMESTAMPTZ DEFAULT now(),
-    titulo TEXT NOT NULL,
-    descricao TEXT,
-    course_id BIGINT REFERENCES courses(id)
-);
+Cadastro de novos usuários e tela de Login.
+
+Proteção da página de "Dashboard", acessível apenas para usuários logados.
+
+Função de Logout.
+
+AC2: Criação e Listagem de Turmas
+
+Implementação da criação de novas turmas (pop-up modal).
+
+O dashboard busca e exibe dinamicamente a lista de turmas do banco de dados (courses).
+
+AC3: Gerenciamento de Atividades da Turma
+
+Página de "Detalhes da Turma" acessível ao clicar em um card.
+
+A página busca e exibe a lista de atividades (atividades) específica daquela turma.
+
+Formulário para criar novas atividades e associá-las à turma correta.
+
+AC4: Gerenciamento de Exclusão (CRUD Completo)
+
+Implementada a funcionalidade de Deletar Atividades na página de detalhes da turma.
+
+Implementada a funcionalidade de Deletar Turmas no dashboard principal.
+
+O sistema gerencia a integridade do banco (deleta atividades "filhas" antes de deletar a turma "mãe").
+
+4. Diagramas do Projeto
+
+Os diagramas de engenharia de software do projeto estão localizados na pasta /docs.
+
+Diagrama de Caso de Uso (Link): Mostra as interações e casos de uso do ator "Professor" com o sistema.
+
+Diagrama de Classes (Link): Mostra a arquitetura das classes e a estrutura do banco de dados.
+
+5. Como Executar o Projeto
+
+Baixe os arquivos do repositório.
+
+Abra o arquivo index.html em qualquer navegador de internet.
+
+Utilize a interface para cadastrar um novo usuário e, em seguida, fazer o login.
