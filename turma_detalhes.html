@@ -8,27 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="style_dashboard.css">
-    <style>
-        /* Estilos adicionais e ajustes para esta página */
-        header a { text-decoration: none; color: #5f6368; }
-        header h1 { margin: 0; }
-        .turma-header { background-color: #1e8e3e; color: white; padding: 24px; border-radius: 8px; margin-bottom: 24px; }
-        .turma-header h2 { margin: 0; font-size: 24px; }
-        .turma-header p { margin: 4px 0 0 0; opacity: 0.9; }
-        main h3 { font-weight: 500; color: #1e8e3e; margin-top: 32px; margin-bottom: 16px; border-bottom: 1px solid #dadce0; padding-bottom: 8px; }
-        .atividades-lista { list-style: none; padding: 0; }
-        .atividades-lista li { background-color: white; border: 1px solid #dadce0; border-radius: 8px; padding: 16px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 16px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.1); }
-        .atividades-lista .material-icons { color: #1e8e3e; margin-top: 2px; }
-        .atividades-lista div { flex-grow: 1; }
-        .atividades-lista strong { font-size: 16px; font-weight: 500; color: #3c4043; display: block; margin-bottom: 4px; }
-        .atividades-lista p { margin: 0; font-size: 14px; color: #5f6368; line-height: 1.4; }
-        .criar-atividade-form { background-color: white; border: 1px solid #dadce0; border-radius: 8px; padding: 24px; margin-top: 32px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.1); }
-        .criar-atividade-form h4 { margin-top: 0; font-weight: 500; color: #1e8e3e; margin-bottom: 16px; }
-        .criar-atividade-form input, .criar-atividade-form textarea { width: calc(100% - 18px); padding: 10px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 4px; font-family: 'Roboto', sans-serif; font-size: 14px; }
-        .criar-atividade-form textarea { min-height: 60px; }
-        .criar-atividade-form button { background-color: #1e8e3e; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: 500; float: right; }
-        .criar-atividade-form::after { content: ""; display: table; clear: both; }
-    </style>
 </head>
 <body>
 
@@ -40,7 +19,7 @@
         </div>
     </header>
 
-    <main>
+    <main class="page-detalhes">
         <div class="turma-header">
             <h2 id="turma-nome">Nome da Turma</h2>
             <p id="turma-materia"></p>
@@ -65,126 +44,6 @@
         </div>
     </main>
 
-    <script>
-        // --- CONFIGURAÇÃO JÁ PREENCHIDA ---
-        const SUPABASE_URL = 'https://kiletflvrfbaoeayfqea.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpbGV0Zmx2cmZiYW9lYXlmcWVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyMjg4OTEsImV4cCI6MjA3NTgwNDg5MX0.hBKTk1103rNMSNsPrlLuE0MGZbZMrhawQt5CbLVezk4';
-        // ---------------------------------------------------------
-
-        const { createClient } = supabase;
-        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-        const avatarDiv = document.getElementById('avatar');
-        const turmaNomeH2 = document.getElementById('turma-nome');
-        const turmaMateriaP = document.getElementById('turma-materia');
-        const atividadesContainer = document.getElementById('atividades-container');
-
-        let idDaTurmaAtual = null; 
-
-        function getIdDaUrl() {
-            const params = new URLSearchParams(window.location.search);
-            return params.get('id'); 
-        }
-
-        async function carregarDetalhesDaTurma() {
-            idDaTurmaAtual = getIdDaUrl();
-            if (!idDaTurmaAtual) {
-                console.error("ID da turma não encontrado na URL!");
-                turmaNomeH2.textContent = "Erro: Turma não encontrada";
-                atividadesContainer.innerHTML = '<li>Erro ao carregar turma.</li>'; 
-                return;
-            }
-
-            // 1. Buscar dados da turma
-            const { data: turmaData, error: turmaError } = await supabaseClient
-                .from('courses')
-                .select('*')
-                .eq('id', idDaTurmaAtual) 
-                .single(); 
-
-            if (turmaError || !turmaData) {
-                console.error("Erro ao buscar detalhes da turma:", turmaError);
-                turmaNomeH2.textContent = "Erro ao carregar turma";
-                 atividadesContainer.innerHTML = '<li>Erro ao carregar turma.</li>';
-                return;
-            }
-
-            turmaNomeH2.textContent = turmaData.title;
-            turmaMateriaP.textContent = turmaData.materia || ''; 
-
-            // 2. Buscar atividades da turma
-            const { data: atividadesData, error: atividadesError } = await supabaseClient
-                .from('atividades')
-                .select('*')
-                .eq('course_id', idDaTurmaAtual); 
-
-            if (atividadesError) {
-                console.error("Erro ao buscar atividades:", atividadesError);
-                atividadesContainer.innerHTML = '<li>Erro ao carregar atividades.</li>';
-                return;
-            }
-
-            atividadesContainer.innerHTML = ''; 
-            if (atividadesData.length === 0) {
-                atividadesContainer.innerHTML = '<li>Nenhuma atividade criada ainda.</li>';
-            } else {
-                atividadesData.forEach(atividade => {
-                    const atividadeHtml = `
-                        <li>
-                            <span class="material-icons">assignment</span>
-                            <div>
-                                <strong>${atividade.titulo}</strong>
-                                <p>${atividade.descricao || ''}</p>
-                            </div>
-                        </li>
-                    `;
-                    atividadesContainer.innerHTML += atividadeHtml;
-                });
-            }
-        }
-
-        async function criarNovaAtividade() {
-            const titulo = document.getElementById('atividade-titulo').value;
-            const descricao = document.getElementById('atividade-descricao').value;
-
-            if (!titulo) {
-                alert("Por favor, preencha o título da atividade.");
-                return;
-            }
-            if (!idDaTurmaAtual) {
-                alert("Erro: ID da turma não encontrado."); return;
-            }
-
-            const { data, error } = await supabaseClient
-                .from('atividades')
-                .insert([ { titulo: titulo, descricao: descricao, course_id: idDaTurmaAtual } ]);
-
-            if (error) {
-                console.error("Erro ao criar atividade:", error);
-                alert("Ocorreu um erro. Verifique o console.");
-            } else {
-                alert("Atividade criada com sucesso!");
-                document.getElementById('atividade-titulo').value = '';
-                document.getElementById('atividade-descricao').value = '';
-                carregarDetalhesDaTurma(); // <- ESTA LINHA RECARREGA A LISTA!
-            }
-        }
-
-        async function fazerLogout() {
-            await supabaseClient.auth.signOut();
-            window.location.href = 'index.html';
-        }
-
-        // LÓGICA PRINCIPAL DA PÁGINA
-        supabaseClient.auth.onAuthStateChange((event, session) => {
-            if (session) {
-                avatarDiv.textContent = session.user.email.charAt(0).toUpperCase();
-                carregarDetalhesDaTurma(); 
-            } else {
-                window.location.href = 'index.html';
-            }
-        });
-
-    </script>
+    <script src="turma_detalhes.js"></script>
 </body>
 </html>

@@ -20,10 +20,13 @@ async function carregarTurmas() {
         turmasContainer.innerHTML = '<p>Nenhuma turma criada ainda. Clique no + para começar!</p>';
     } else {
         data.forEach(turma => {
-            // <-- MUDANÇA AQUI: Adicionamos o onclick no div principal do card -->
             const cardHtml = `
                 <div class="turma-card" onclick="irParaDetalhes(${turma.id})">
-                    <div class="card-header"><h3>${turma.title}</h3><span>${turma.materia || ''}</span></div>
+                    <div class="card-header">
+                        <h3>${turma.title}</h3>
+                        <span>${turma.materia || ''}</span>
+                        <span class="delete-icon-turma" onclick="event.stopPropagation(); deletarTurma(${turma.id});">🗑️</span>
+                    </div>
                     <div class="card-body"></div>
                     <div class="card-footer">
                         <span class="material-icons" title="Atividades">assignment</span>
@@ -45,9 +48,9 @@ function fecharModal() {
 
 async function criarNovaTurma() {
     const nomeTurma = document.getElementById('nome-turma-input').value;
-    const materia = document.getElementById('materia-input').value; // Usando os dois campos
+    const materia = document.getElementById('materia-input').value; 
 
-    if (!nomeTurma) { // Apenas o nome é obrigatório por enquanto
+    if (!nomeTurma) { 
         alert('Por favor, preencha o nome da turma.');
         return;
     }
@@ -55,7 +58,7 @@ async function criarNovaTurma() {
     const { data, error } = await supabaseClient
         .from('courses')
         .insert([
-            { title: nomeTurma, materia: materia } // Enviando os dois campos
+            { title: nomeTurma, materia: materia } 
         ]);
 
     if (error) {
@@ -68,13 +71,44 @@ async function criarNovaTurma() {
     }
 }
 
-// <-- MUDANÇA AQUI: Nova função para redirecionar -->
 function irParaDetalhes(turmaId) {
-    // Redireciona para a nova página, passando o ID da turma na URL
     window.location.href = `turma_detalhes.html?id=${turmaId}`;
 }
 
-// Lógica principal com onAuthStateChange
+async function deletarTurma(turmaId) {
+    
+    if (!confirm("Tem certeza que deseja deletar esta turma?\n\nAVISO: ISSO APAGARÁ TODAS AS ATIVIDADES DENTRO DELA E NÃO PODE SER DESFEITO.")) {
+        return;
+    }
+
+    console.log("Deletando turma ID:", turmaId);
+    
+    
+    const { error: errorAtividades } = await supabaseClient
+        .from('atividades')
+        .delete()
+        .eq('course_id', turmaId);
+
+    if (errorAtividades) {
+        console.error("Erro ao deletar atividades da turma:", errorAtividades);
+        alert("Erro ao tentar limpar as atividades da turma.");
+        return; 
+    }
+
+    const { error: errorTurma } = await supabaseClient
+        .from('courses')
+        .delete()
+        .eq('id', turmaId);
+    
+    if (errorTurma) {
+        console.error("Erro ao deletar turma:", errorTurma);
+        alert("Erro ao deletar a turma.");
+    } else {
+        alert("Turma e todas as suas atividades foram deletadas com sucesso!");
+        carregarTurmas(); 
+    }
+}
+
 supabaseClient.auth.onAuthStateChange((event, session) => {
     if (session) {
         const userEmail = session.user.email;
@@ -88,5 +122,4 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
 
 async function fazerLogout() {
     await supabaseClient.auth.signOut();
-    // O onAuthStateChange vai detectar o logout e redirecionar sozinho.
 }

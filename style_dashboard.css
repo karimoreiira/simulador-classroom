@@ -9,7 +9,7 @@ main { padding: 88px 24px 24px 24px; }
 .turmas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
 .turma-card { background-color: white; border: 1px solid #dadce0; border-radius: 8px; display: flex; flex-direction: column; }
 .card-header { background-color: #1e8e3e; color: white; padding: 16px; height: 80px; border-radius: 8px 8px 0 0; position: relative; }
-.card-header h3 { margin: 0; font-size: 20px; }
+.card-header h3 { margin: 0; font-size: 20px; } 
 .card-body { flex-grow: 1; padding: 16px; }
 .card-footer { padding: 16px; border-top: 1px solid #dadce0; display: flex; justify-content: flex-end; gap: 20px; }
 .material-icons { color: #5f6368; cursor: pointer; }
@@ -24,3 +24,124 @@ main { padding: 88px 24px 24px 24px; }
 .modal-actions button { padding: 8px 16px; border-radius: 4px; border: 1px solid #dadce0; cursor: pointer; font-weight: 500; }
 .btn-cancelar { background-color: transparent; color: #1a73e8; }
 .btn-salvar { background-color: #1a73e8; color: white; border: none; }
+
+/* --- ESTILOS PARA TURMA_DETALHES --- */
+header a { text-decoration: none; color: #5f6368; }
+
+.page-detalhes .turma-header { 
+    background-color: #1e8e3e; 
+    color: white; 
+    padding: 24px; 
+    border-radius: 8px; 
+    margin-bottom: 24px; 
+}
+.page-detalhes .turma-header h2 { margin: 0; font-size: 24px; }
+.page-detalhes .turma-header p { margin: 4px 0 0 0; opacity: 0.9; }
+
+.page-detalhes main h3 { 
+    font-weight: 500;
+    color: #1e8e3e; 
+    margin-top: 32px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #dadce0;
+    padding-bottom: 8px;
+}
+
+.page-detalhes .atividades-lista { list-style: none; padding: 0; }
+.page-detalhes .atividades-lista li { 
+    background-color: white; 
+    border: 1px solid #dadce0; 
+    border-radius: 8px; 
+    padding: 16px; 
+    margin-bottom: 16px; 
+    display: flex; 
+    align-items: flex-start; 
+    gap: 16px; 
+    box-shadow: 0 1px 2px 0 rgba(60,64,67,0.1); 
+}
+.page-detalhes .atividades-lista .material-icons { 
+    color: #1e8e3e; 
+    margin-top: 2px; 
+}
+.page-detalhes .atividades-lista div { flex-grow: 1; }
+.page-detalhes .atividades-lista strong { 
+    font-size: 16px; 
+    font-weight: 500; 
+    color: #3c4043; 
+    display: block; 
+    margin-bottom: 4px; 
+}
+.page-detalhes .atividades-lista p { 
+    margin: 0; 
+    font-size: 14px; 
+    color: #5f6368; 
+    line-height: 1.4; 
+}
+
+.page-detalhes .criar-atividade-form { 
+    background-color: white; 
+    border: 1px solid #dadce0; 
+    border-radius: 8px; 
+    padding: 24px; 
+    margin-top: 32px; 
+    box-shadow: 0 1px 2px 0 rgba(60,64,67,0.1);
+}
+.page-detalhes .criar-atividade-form h4 { 
+    margin-top: 0; 
+    font-weight: 500;
+    color: #1e8e3e; 
+    margin-bottom: 16px;
+}
+.page-detalhes .criar-atividade-form input, 
+.page-detalhes .criar-atividade-form textarea { 
+    width: calc(100% - 18px); 
+    padding: 10px; 
+    margin-bottom: 12px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    font-family: 'Roboto', sans-serif; 
+    font-size: 14px; 
+}
+.page-detalhes .criar-atividade-form textarea { min-height: 60px; }
+.page-detalhes .criar-atividade-form button { 
+    background-color: #1e8e3e; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-weight: 500; 
+    float: right; 
+}
+.page-detalhes .criar-atividade-form::after { 
+     content: ""; 
+     display: table; 
+     clear: both; 
+}
+
+.page-detalhes .delete-icon {
+    cursor: pointer;
+    float: right;
+    opacity: 0.5;
+    font-size: 18px;
+    margin-left: 10px; /* Espacinho */
+}
+.page-detalhes .delete-icon:hover {
+    opacity: 1;
+    color: red;
+}
+
+/* --- NOVO CSS ADICIONADO --- */
+.delete-icon-turma {
+    position: absolute; /* Posição absoluta em relação ao .card-header */
+    top: 16px;
+    right: 16px;
+    cursor: pointer;
+    opacity: 0.7;
+    font-size: 20px;
+}
+.delete-icon-turma:hover {
+    opacity: 1;
+    /* A cor já é branca por padrão no header, então fica bom */
+}
+/* --- FIM DO NOVO CSS --- */
